@@ -7,8 +7,9 @@ fs.readFile('input.txt', 'utf8', function(error, fileContent){
         const charactersToRemove = ['-', '(', ')'];
         const cleanedByCharacters =  charactersToRemove
             .reduce((str, char) => str.split(char).join(''), string);
-        return cleanedByCharacters.startsWith("+7") ? cleanedByCharacters.substring(2) :
-            cleanedByCharacters.startsWith("8") ? cleanedByCharacters.substring(1) : '495' + cleanedByCharacters;
+        return cleanedByCharacters.length === 7 ? '495' + cleanedByCharacters :
+            cleanedByCharacters.startsWith("+7") ? cleanedByCharacters.substring(2) :
+            cleanedByCharacters.substring(1);
     }
     phoneNumbers.slice(0, -2).forEach(el => {
         cleanNumber(el) === cleanNumber(phoneNumbers.at(-2)) ? ans +='YES \n' : ans +='NO \n';
