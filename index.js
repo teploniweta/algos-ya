@@ -5,7 +5,7 @@ fs.readFile('input.txt', 'utf8', function(error, fileContent){
     let ans = '';
     const cleanNumber = string => {
         const charactersToRemove = ['-', '(', ')'];
-        const cleanedByCharacters =  charactersToRemove
+        const cleanedByCharacters = charactersToRemove
             .reduce((str, char) => str.split(char).join(''), string);
         return cleanedByCharacters.length === 7 ? '495' + cleanedByCharacters :
             cleanedByCharacters.startsWith("+7") ? cleanedByCharacters.substring(2) :
