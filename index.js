@@ -1,12 +1,18 @@
 let fs = require('fs');
 fs.readFile('input.txt', 'utf8', function(error, fileContent){
     if(error) throw error;
-    console.log(fileContent);
+    const digits = fileContent.split(/\s+/)
+        .filter((value) => value.trim() !== "")
+        .map((value) => Number(value))
+        .sort((a, b) => a - b);
+    const [first, second] = digits;
+    const [secondLast, last] = digits.slice(-2);
 
-    let toWrite = fileContent + '228';
-
-    fs.writeFile('output.txt', toWrite, function(error){
+    const ans = first * second > secondLast * last ?
+        String(first) + ' ' + String(second)
+        : String(secondLast) + ' ' + String(last);
+    fs.writeFile('output.txt', ans, function(error){
         if(error) throw error;
-        console.log(toWrite);
+        console.log(ans);
     });
 });
