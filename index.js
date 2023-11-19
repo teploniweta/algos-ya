@@ -4,10 +4,10 @@ fs.readFile('input.txt', 'utf8', function(error, fileContent){
     const arr = fileContent.split(/\s+/).slice(0, -2).map(Number);
     const ans = {
         'CONSTANT': true,
-        'WEAKLY ASCENDING': true,
-        'WEAKLY DESCENDING': true,
         'ASCENDING': true,
+        'WEAKLY ASCENDING': true,
         'DESCENDING': true,
+        'WEAKLY DESCENDING': true,
         'RANDOM': true,
     };
 
@@ -22,29 +22,29 @@ fs.readFile('input.txt', 'utf8', function(error, fileContent){
         } else if (arr[i] < arr[i - 1]) {
             ans['CONSTANT'] = ans['ASCENDING'] = ans['WEAKLY ASCENDING'] = false;
             hasDecreasing = true;
-        } else {
+        }
+        else {
             wasEval = true;
         }
     }
 
-    const setAttributes = (increasing, weakly) => {
-        ans[`ASCENDING`] = increasing;
-        ans[`WEAKLY ASCENDING`] =  increasing && weakly;
-        ans[`DESCENDING`] = !increasing;
-        ans[`WEAKLY DESCENDING`] = !increasing && weakly;
-    };
-
     if (hasIncreasing) {
-        setAttributes(true, wasEval);
+        if (wasEval) {
+            ans['WEAKLY ASCENDING'] = true;
+            ans['ASCENDING'] = false;
+        }
+        else ans['ASCENDING'] = true;
     }
-
     if (hasDecreasing) {
-        setAttributes(false, wasEval);
+        if (wasEval) {
+            ans['WEAKLY DESCENDING'] = true
+            ans['DESCENDING'] = false;
+        }
+        else ans['DESCENDING'] = true;
     }
 
-    if (hasDecreasing && hasIncreasing) {
-        Object.keys(ans).forEach(key => ans[key] = false);
-    }
+    if (hasDecreasing && hasIncreasing)  ans['ASCENDING'] = ans['WEAKLY ASCENDING'] =
+        ans['CONSTANT'] = ans['DESCENDING'] = ans['WEAKLY DESCENDING'] = false;
 
     let result = 'RANDOM';
     for (const type in ans) {
